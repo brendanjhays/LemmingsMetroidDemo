@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objecttypes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <objecttype name="Bullet">
+    <property name="lifeTimer" type="int" />
+    <property name="Speed" type="int" default="300" />
+  </objecttype>
+  <objecttype name="Gun" />
+  <objecttype name="MainCharacter">
+    <property name="GroundMovement" type="LemmingsMetroid.DataTypes.PlatformerValues" default="Ground in PlatformerValuesStatic.csv" />
+    <property name="AirMovement" type="LemmingsMetroid.DataTypes.PlatformerValues" default="Air in PlatformerValuesStatic.csv" />
+    <property name="AfterDoubleJump" type="LemmingsMetroid.DataTypes.PlatformerValues" />
+    <property name="GunCooldown" type="int" />
+    <property name="ShotCooldown" type="int" />
+    <property name="WaveDashCooldown" type="float" />
+    <property name="HasFastfall" type="bool" default="true" />
+    <property name="ScreenShake" type="bool" />
+    <property name="ScreenShakeTimer" type="int" />
+    <property name="FacingRight" type="bool" default="true" />
+  </objecttype>
+</objecttypes>
