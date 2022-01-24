@@ -22,7 +22,6 @@ namespace LemmingsMetroid.Entities
         private void CustomInitialize()
         {
             this.lifeTimer = 25;
-
         }
 
         private void CustomActivity()

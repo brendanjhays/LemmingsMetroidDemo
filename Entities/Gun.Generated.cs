@@ -22,6 +22,7 @@ namespace LemmingsMetroid.Entities
         static object mLockObject = new object();
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D pistol;
         
         private FlatRedBall.Sprite SpriteInstance;
         private FlatRedBall.Math.Geometry.AxisAlignedRectangle mAxisAlignedRectangleInstance;
@@ -122,6 +123,7 @@ namespace LemmingsMetroid.Entities
                 SpriteInstance.CopyAbsoluteToRelative();
                 SpriteInstance.AttachTo(this, false);
             }
+            SpriteInstance.Texture = pistol;
             SpriteInstance.TextureScale = 1f;
             if (mAxisAlignedRectangleInstance.Parent == null)
             {
@@ -162,6 +164,7 @@ namespace LemmingsMetroid.Entities
             if (callOnContainedElements)
             {
             }
+            SpriteInstance.Texture = pistol;
             SpriteInstance.TextureScale = 1f;
             if (AxisAlignedRectangleInstance.Parent == null)
             {
@@ -210,6 +213,11 @@ namespace LemmingsMetroid.Entities
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/gun/pistol.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                pistol = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/gun/pistol.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -233,23 +241,52 @@ namespace LemmingsMetroid.Entities
             }
             if (LoadedContentManagers.Count == 0)
             {
+                if (pistol != null)
+                {
+                    pistol= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
         public static object GetStaticMember (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "pistol":
+                    return pistol;
+            }
             return null;
         }
         public static object GetFile (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "pistol":
+                    return pistol;
+            }
             return null;
         }
         object GetMember (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "pistol":
+                    return pistol;
+            }
             return null;
         }
         public static void Reload (object whatToReload) 
         {
+            if (whatToReload == pistol)
+            {
+                var oldTexture = pistol;
+                {
+                    var cm = FlatRedBall.FlatRedBallServices.GetContentManagerByName("Global");
+                    cm.UnloadAsset(pistol);
+                    pistol = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("content/entities/gun/pistol.png");
+                }
+                FlatRedBall.SpriteManager.ReplaceTexture(oldTexture, pistol);
+            }
         }
         protected bool mIsPaused;
         public override void Pause (FlatRedBall.Instructions.InstructionList instructions) 

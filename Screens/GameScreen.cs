@@ -110,7 +110,7 @@ namespace LemmingsMetroid.Screens
                 {
                     MainCharacter1.Velocity.Y = -(float)(Math.Log(Math.Pow(dy, 4) + 1, 3) * 20 * ReturnNegativity(dy));
                 }
-                MainCharacter1.GunCooldown = 120;
+                MainCharacter1.GunCooldown = 25;
                 MainCharacter1.ShotCooldown = 9;
 
                 

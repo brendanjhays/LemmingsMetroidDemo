@@ -41,7 +41,7 @@ namespace LemmingsMetroid.Entities
             float my = InputManager.Mouse.WorldYAt(0);
 
             var gunDistance = new Vector2(mx - gun.X, my - gun.Y);
-            //gun.RotationX *= ((float)Math.Atan2(gunDistance.Y, gunDistance.X));
+            gun.UpdateRotation((float)Math.Atan2(gunDistance.Y, gunDistance.X));
 
             if(InputManager.Mouse.ButtonPushed(Mouse.MouseButtons.LeftButton) && this.GunCooldown == 0 && this.ShotCooldown == 0)
             {

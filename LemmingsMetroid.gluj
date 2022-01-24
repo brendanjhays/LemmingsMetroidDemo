@@ -719,6 +719,12 @@
           "IsSharedStatic": true,
           "RuntimeType": "Microsoft.Xna.Framework.Graphics.Texture2D",
           "ProjectsToExcludeFrom": []
+        },
+        {
+          "Name": "Entities/Bullet/EmitterListFile.emix",
+          "IsSharedStatic": true,
+          "RuntimeType": "FlatRedBall.Graphics.Particle.EmitterList",
+          "ProjectsToExcludeFrom": []
         }
       ],
       "CustomVariables": [
@@ -804,15 +810,21 @@
           ],
           "InstructionSaves": [
             {
+              "Type": "Microsoft.Xna.Framework.Graphics.Texture2D",
+              "Member": "Texture",
+              "Value": "pistolBullet",
+              "Time": 0.0
+            },
+            {
               "Type": "float",
               "Member": "TextureScale",
               "Value": 1.0,
               "Time": 0.0
             },
             {
-              "Type": "Microsoft.Xna.Framework.Graphics.Texture2D",
-              "Member": "Texture",
-              "Value": "pistolBullet",
+              "Type": "float",
+              "Member": "Z",
+              "Value": 10.0,
               "Time": 0.0
             }
           ],
@@ -861,6 +873,14 @@
       "Source": "GLUE",
       "CreatedByOtherEntities": true,
       "Is2D": true,
+      "ReferencedFiles": [
+        {
+          "Name": "Entities/Gun/pistol.png",
+          "IsSharedStatic": true,
+          "RuntimeType": "Microsoft.Xna.Framework.Graphics.Texture2D",
+          "ProjectsToExcludeFrom": []
+        }
+      ],
       "CustomVariables": [
         {
           "Properties": [
@@ -916,6 +936,12 @@
             }
           ],
           "InstructionSaves": [
+            {
+              "Type": "Microsoft.Xna.Framework.Graphics.Texture2D",
+              "Member": "Texture",
+              "Value": "pistol",
+              "Time": 0.0
+            },
             {
               "Type": "float",
               "Member": "TextureScale",

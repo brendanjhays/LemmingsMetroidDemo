@@ -23,6 +23,7 @@ namespace LemmingsMetroid.Entities
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
         protected static Microsoft.Xna.Framework.Graphics.Texture2D pistolBullet;
+        protected static FlatRedBall.Graphics.Particle.EmitterList EmitterListFile;
         
         private FlatRedBall.Sprite SpriteInstance;
         private FlatRedBall.Math.Geometry.Circle mCircleInstance;
@@ -134,6 +135,14 @@ namespace LemmingsMetroid.Entities
                 SpriteInstance.CopyAbsoluteToRelative();
                 SpriteInstance.AttachTo(this, false);
             }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Z = 10f;
+            }
+            else
+            {
+                SpriteInstance.RelativeZ = 10f;
+            }
             SpriteInstance.Texture = pistolBullet;
             SpriteInstance.TextureScale = 1f;
             if (mCircleInstance.Parent == null)
@@ -167,6 +176,14 @@ namespace LemmingsMetroid.Entities
         {
             if (callOnContainedElements)
             {
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Z = 10f;
+            }
+            else
+            {
+                SpriteInstance.RelativeZ = 10f;
             }
             SpriteInstance.Texture = pistolBullet;
             SpriteInstance.TextureScale = 1f;
@@ -212,6 +229,11 @@ namespace LemmingsMetroid.Entities
                     registerUnload = true;
                 }
                 pistolBullet = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/bullet/pistolbullet.png", ContentManagerName);
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<FlatRedBall.Graphics.Particle.EmitterList>(@"content/entities/bullet/emitterlistfile.emix", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                EmitterListFile = FlatRedBall.FlatRedBallServices.Load<FlatRedBall.Graphics.Particle.EmitterList>(@"content/entities/bullet/emitterlistfile.emix", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -239,6 +261,11 @@ namespace LemmingsMetroid.Entities
                 {
                     pistolBullet= null;
                 }
+                if (EmitterListFile != null)
+                {
+                    EmitterListFile.RemoveFromManagers(ContentManagerName != "Global");
+                    EmitterListFile= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
@@ -248,6 +275,8 @@ namespace LemmingsMetroid.Entities
             {
                 case  "pistolBullet":
                     return pistolBullet;
+                case  "EmitterListFile":
+                    return EmitterListFile;
             }
             return null;
         }
@@ -257,6 +286,8 @@ namespace LemmingsMetroid.Entities
             {
                 case  "pistolBullet":
                     return pistolBullet;
+                case  "EmitterListFile":
+                    return EmitterListFile;
             }
             return null;
         }
@@ -266,6 +297,8 @@ namespace LemmingsMetroid.Entities
             {
                 case  "pistolBullet":
                     return pistolBullet;
+                case  "EmitterListFile":
+                    return EmitterListFile;
             }
             return null;
         }

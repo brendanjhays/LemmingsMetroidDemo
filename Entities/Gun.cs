@@ -31,6 +31,11 @@ namespace LemmingsMetroid.Entities
 
         }
 
+        public void UpdateRotation(float angle)
+        {
+          //  this.SpriteInstance.RotationX = angle;
+        }
+
         private void CustomDestroy()
         {
 
