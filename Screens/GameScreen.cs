@@ -24,6 +24,11 @@ namespace LemmingsMetroid.Screens
     public partial class GameScreen
     {
         Random rand = new Random();
+
+        int cameraMax, cameraMin, cameraPosLast;
+
+        static final int CAMERA_DELAY = 100;
+
         void CustomInitialize()
         {
 
@@ -31,6 +36,13 @@ namespace LemmingsMetroid.Screens
 
 
             AssignInputs();
+            InitializeCamera();
+        }
+
+        void InitializeCamera()
+        {
+            cameraMax = MainCharacter1.X + CAMERA_DELAY;
+            cameraMin = MainCharacter1.X - CAMERA_DELAY;
         }
 
         void AssignInputs()
@@ -46,10 +58,30 @@ namespace LemmingsMetroid.Screens
             MouseInput();
             GamepadInput();
             UpdateSprite();
-            UpdateCamera();
+            ScreenShake();
         }
 
         void UpdateCamera()
+        {
+            if (MainCharacter1.X > cameraMax)
+            {
+                cameraMax = MainCharacter1.X;
+            } else if (MainCharacter1.X < cameraMin)
+            {
+                cameraMin = MainCharacter1.X;
+            }
+            
+            int currentCameraPos = (cameraMax + cameraMin) / 2;
+
+            if (!currentCameraPos == cameraPosLast)
+            {
+                Camera.Main.X += currentCameraPos - cameraPosLast;
+            }
+
+            cameraPosLast = (cameraMax + cameraMin) / 2;
+        }
+
+        void ScreenShake()
         {
             int delay = 3;
             int screenOffset = 5;

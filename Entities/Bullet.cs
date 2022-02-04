@@ -14,6 +14,9 @@ namespace LemmingsMetroid.Entities
 {
     public partial class Bullet
     {
+
+        public int damageApplied;
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
@@ -22,6 +25,7 @@ namespace LemmingsMetroid.Entities
         private void CustomInitialize()
         {
             this.lifeTimer = 25;
+            this.damageApplied = 10;
         }
 
         private void CustomActivity()

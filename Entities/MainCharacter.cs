@@ -16,12 +16,17 @@ namespace LemmingsMetroid.Entities
     {
         Gun gun;
         bool wasLastDirectionRight = false;
+        Timer shotCooldown, gunCooldown, waveDashCooldown, screenShakeTimer, bloodTimer;
+
+        int bloodMeter, bloodMax;
+        float bloodMulti;
+
         private void CustomInitialize()
         {
-            GunCooldown = 0;
-            ShotCooldown = 0;
-            WaveDashCooldown = 0;   
-            WaveDashCooldown = 0;
+            gunCooldown = new Timer();
+            shotCooldown = new Timer();
+            waveDashCooldown = new Timer();
+            screenShakeTimer = new Timer();
             gun = Factories.GunFactory.CreateNew(this.X + 9, this.Y);
         }
 
@@ -31,8 +36,18 @@ namespace LemmingsMetroid.Entities
             UpdateCamera();
             MouseInput();
             KeyInput();
+            BloodUpdate();
             gun.X = this.X + 9;
             gun.Y = this.Y;
+        }
+
+        private void BloodUpdate()
+        {
+            if (bloodMeter >= bloodMax)
+            {
+                bloodMeter -= bloodMax;
+                bloodTimer.length = 600;
+            }
         }
 
         private void MouseInput()
@@ -49,6 +64,7 @@ namespace LemmingsMetroid.Entities
                 gunDistance.Normalize();
                 newBullet.Velocity.X = gunDistance.X * Bullet.Speed;
                 newBullet.Velocity.Y = gunDistance.Y * Bullet.Speed;
+                if (this.bloodTimer.length > 0) newBullet.damageApplied *= this.bloodMulti;
                 this.SpriteInstance.Red = 100;
             }
         }
@@ -88,19 +104,18 @@ namespace LemmingsMetroid.Entities
 
         private void UpdateTimers()
         {
-
-            if (this.GunCooldown > 0) this.GunCooldown--;
-            if (this.ShotCooldown > 0) this.ShotCooldown--;
+            gunCooldown.Update();
+            shotCooldown.Update();
+            waveDashCooldown.Update();
+            screenShakeTimer.Update();
             if (this.IsOnGround)
             {
-                this.GunCooldown = 0;
+                gunCooldown.length = 0;
+                screenShakeTimer.length = 0;
                 this.ScreenShake = false;
-                ScreenShakeTimer = 0;
                 this.HasFastfall = true;
                 this.AirMovement.MaxFallSpeed = 400;
             }
-            if (this.WaveDashCooldown > 0) this.WaveDashCooldown--;
-            if (this.ScreenShakeTimer > 1) this.ScreenShakeTimer--;
             if (this.ScreenShakeTimer == 1)
             {
                 this.ScreenShakeTimer--;
@@ -108,11 +123,7 @@ namespace LemmingsMetroid.Entities
                 Camera.Main.X = 256;
                 Camera.Main.Y = -256;
             }
-
-            if (this.GunCooldown > 0) this.GunCooldown -= 1;
-            if (this.ShotCooldown > 0) this.ShotCooldown -= 1;
-            if (this.IsOnGround) this.GunCooldown = 0;
-            if (this.WaveDashCooldown > 0) this.WaveDashCooldown -= 1;
+            if (this.IsOnGround) gunCooldown.length = 0;
 
         }
 
